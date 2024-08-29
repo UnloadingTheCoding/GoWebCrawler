@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"strings"
 )
 
 func getHTML(rawURL string) (string, error) {
@@ -18,7 +19,8 @@ func getHTML(rawURL string) (string, error) {
 		return "", fmt.Errorf("error: %w", err)
 	}
 
-	if res.Header.Get("Content-Type") != "text/html" {
+	contentType := res.Header.Get("Content-Type")
+	if !strings.Contains(contentType, "text/html") {
 		return "", fmt.Errorf("incorrect content-type")
 	}
 
